@@ -1,0 +1,5 @@
+/raid10/backups/genepool/DPGP2plus/wrap1kb/Chr3R/AllCounts_ZI_NoInv_Chr3R.txt
+/raid10/backups/genepool/DPGP2plus/wrap1kb/inv_free_counts/AllCounts_ZI_NoInv_ChrX.txt
+/raid10/backups/genepool/DPGP2plus/wrap1kb/inv_free_counts/AllCounts_ZI_NoInv_Chr3L.txt
+/raid10/backups/genepool/DPGP2plus/wrap1kb/inv_free_counts/AllCounts_ZI_NoInv_Chr2R.txt
+/raid10/backups/genepool/DPGP2plus/wrap1kb/QS/AllCounts_ZI_NoInv_Chr2L.txt

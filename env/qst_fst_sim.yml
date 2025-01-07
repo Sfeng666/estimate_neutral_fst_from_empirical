@@ -1,0 +1,26 @@
+name: qst_fst_sim
+channels:
+  - conda-forge
+  - defaults
+  - bioconda
+  - r
+dependencies:
+  - python=3.8
+  - numpy
+  - ca-certificates
+  - openssl
+  - pyslim
+  - slim
+  - radian
+  - r-lme4
+  - r-rmarkdown
+  - r-abc
+  - r-httpgd
+  - r-doparallel
+  - r-philentropy
+  - r-plotly
+  - r-rocr
+  - r-microbenchmark
+  - bioconda::ucsc-liftover
+  - bioconda::ms
+prefix: /home/siyuan/biosoft/miniconda3/envs/qst_fst_sim
