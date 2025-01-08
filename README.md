@@ -1,4 +1,4 @@
-# # Estimate SNP FST between two populations using nearly-neutral sites
+# Estimate SNP FST between two populations using nearly-neutral sites
 This analysis estimate SNP (i.e., single-site) FST (between two focal populations, here France and Zambia) for 4-fold synonymous sites in moderate/high-recombination regions. 
 
 
