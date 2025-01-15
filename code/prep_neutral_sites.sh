@@ -134,6 +134,6 @@ echo "Proportion of 4-fold synonymous sites across the genome: $(echo "scale=4; 
 echo "Proportion of 4-fold synonymous sites in the low-recombination regions: $(echo "scale=4; $num_sites_syn_lowrecomb / $num_total_sites_syn" | bc)"
 echo "Proportion of 4-fold synonymous sites outside the low-recombination regions: $(echo "scale=4; $num_sites_syn_rmlowrecomb / $num_total_sites_syn" | bc)"
 echo "Proportion of 4-fold synonymous sites in the low-recombination regions compared to the whole genome: $(echo "scale=4; $num_sites_syn_rmlowrecomb / $length_genome" | bc)"
-
+echo "Number of 4-fold synonymous sites in the low-recombination regions: $num_sites_syn_rmlowrecomb"
 
 

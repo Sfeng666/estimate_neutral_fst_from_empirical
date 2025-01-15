@@ -9,6 +9,140 @@ library(ggplot2)
 library(dplyr)
 ```
 
+# 1. define a function to plot distribution of per-site minor af per population (FR)
+```{r}
+plot_fst_distribution <- function(chrom) {
+  # Load data
+  fst_file <- paste0("../data/output/afs_FR_", chrom, ".txt")
+  
+  fst_data <- read.table(fst_file, header = FALSE)
+  
+# Combine data into a single data frame
+  fst_data_combined <- data.frame(FST = fst_data$V1, Version = "minor allele frequency")
+  
+  # Calculate top percentiles
+  percentiles <- fst_data_combined %>%
+    group_by(Version) %>%
+    summarize(
+      p90 = quantile(FST, 0.90),
+      p95 = quantile(FST, 0.95)
+    )
+  
+  # Plot
+  p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
+    geom_density(alpha = 0.5) +
+    geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
+    geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
+    scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
+    labs(title = paste("MAF Distribution for", chrom), x = "MAF", y = "Density") +
+    theme_minimal() +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks = element_line(size = 0.75),       # Add axis ticks
+      axis.ticks.length = unit(0.25, "cm"),         # Adjust tick length
+      axis.line = element_line(size = 0.75, color = "black"), # Add axis lines
+      panel.background = element_rect(fill = "white", color = NA), # White background
+      plot.background = element_rect(fill = "white", color = NA)   # White background
+    )
+  # Save the plot
+  ggsave(paste0("../data/output/MAF_FR_distribution_", chrom, "_empirical.png"), plot = p, width = 6, height = 4, dpi = 300)
+  return(p)
+}
+```
+
+# 1. define a function to plot distribution of per-site minor af per population (ZI)
+```{r}
+plot_fst_distribution <- function(chrom) {
+  # Load data
+  fst_file <- paste0("../data/output/afs_ZI_", chrom, ".txt")
+  
+  fst_data <- read.table(fst_file, header = FALSE)
+  
+# Combine data into a single data frame
+  fst_data_combined <- data.frame(FST = fst_data$V1, Version = "minor allele frequency")
+  
+  # Calculate top percentiles
+  percentiles <- fst_data_combined %>%
+    group_by(Version) %>%
+    summarize(
+      p90 = quantile(FST, 0.90),
+      p95 = quantile(FST, 0.95)
+    )
+  
+  # Plot
+  p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
+    geom_density(alpha = 0.5) +
+    geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
+    geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
+    scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
+    labs(title = paste("MAF Distribution for", chrom), x = "MAF", y = "Density") +
+    theme_minimal() +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks = element_line(size = 0.75),       # Add axis ticks
+      axis.ticks.length = unit(0.25, "cm"),         # Adjust tick length
+      axis.line = element_line(size = 0.75, color = "black"), # Add axis lines
+      panel.background = element_rect(fill = "white", color = NA), # White background
+      plot.background = element_rect(fill = "white", color = NA)   # White background
+    )
+  # Save the plot
+  ggsave(paste0("../data/output/MAF_ZI_distribution_", chrom, "_empirical.png"), plot = p, width = 6, height = 4, dpi = 300)
+  return(p)
+}
+```
+
+
+# 1. define a function to plot distribution of per-site total heterozygosity across populations
+```{r}
+plot_fst_distribution <- function(chrom) {
+  # Load data
+  fst_file <- paste0("../data/output/heterozygosity_", chrom, ".txt")
+  
+  fst_data <- read.table(fst_file, header = FALSE)
+  
+# Combine data into a single data frame
+  fst_data_combined <- data.frame(FST = fst_data$V1, Version = "SNP heterozygosity")
+  
+  # Calculate top percentiles
+  percentiles <- fst_data_combined %>%
+    group_by(Version) %>%
+    summarize(
+      p90 = quantile(FST, 0.90),
+      p95 = quantile(FST, 0.95)
+    )
+  
+  # Plot
+  p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
+    geom_density(alpha = 0.5) +
+    geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
+    geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
+    scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
+    labs(title = paste("Heterozygosity Distribution for", chrom), x = "Heterozygosity", y = "Density") +
+    theme_minimal() +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks = element_line(size = 0.75),       # Add axis ticks
+      axis.ticks.length = unit(0.25, "cm"),         # Adjust tick length
+      axis.line = element_line(size = 0.75, color = "black"), # Add axis lines
+      panel.background = element_rect(fill = "white", color = NA), # White background
+      plot.background = element_rect(fill = "white", color = NA)   # White background
+    )
+  # Save the plot
+  ggsave(paste0("../data/output/heterozygosity_distribution_", chrom, "_empirical.png"), plot = p, width = 6, height = 4, dpi = 300)
+  return(p)
+}
+```
+
+
 # 1. define a function to plot FST distribution
 ```{r}
 plot_fst_distribution <- function(chrom) {
@@ -49,6 +183,50 @@ plot_fst_distribution <- function(chrom) {
     )
   # Save the plot
   ggsave(paste0("../data/output/fst_distribution_", chrom, "_empirical.png"), plot = p, width = 6, height = 4, dpi = 300)
+  return(p)
+}
+```
+
+# 1. define a function to plot FST distribution (biallelic)
+```{r}
+plot_fst_distribution <- function(chrom) {
+  # Load data
+  fst_file <- paste0("../data/output/fst_", chrom, "_biallelic.txt")
+  
+  fst_data <- read.table(fst_file, header = FALSE)
+  
+# Combine data into a single data frame
+  fst_data_combined <- data.frame(FST = fst_data$V1, Version = "SNP FST")
+  
+  # Calculate top percentiles
+  percentiles <- fst_data_combined %>%
+    group_by(Version) %>%
+    summarize(
+      p90 = quantile(FST, 0.90),
+      p95 = quantile(FST, 0.95)
+    )
+  
+  # Plot
+  p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
+    geom_density(alpha = 0.5) +
+    geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
+    geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
+    scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
+    labs(title = paste("FST Distribution for", chrom), x = "FST", y = "Density") +
+    theme_minimal() +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0)) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks = element_line(size = 0.75),       # Add axis ticks
+      axis.ticks.length = unit(0.25, "cm"),         # Adjust tick length
+      axis.line = element_line(size = 0.75, color = "black"), # Add axis lines
+      panel.background = element_rect(fill = "white", color = NA), # White background
+      plot.background = element_rect(fill = "white", color = NA)   # White background
+    )
+  # Save the plot
+  ggsave(paste0("../data/output/fst_distribution_", chrom, "_empirical_biallelic.png"), plot = p, width = 6, height = 4, dpi = 300)
   return(p)
 }
 ```

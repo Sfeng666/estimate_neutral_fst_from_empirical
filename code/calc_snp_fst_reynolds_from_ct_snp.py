@@ -1,13 +1,5 @@
 import optparse
 
-# # test purpose
-# p1_afs = {0: 17/18, 1: 1/18}
-# p2_afs = {0: 18/18, 1: 0/18}
-# p1_afs = {0: 5/18, 1: 13/18}
-# p2_afs = {0: 3/18, 1: 15/18}
-# size1 = 18
-# size2 = 18
-
 ## function to calculate SNP Reynolds Fst
 def Fst_reynolds(p1_afs, p2_afs, size1, size2):
 
@@ -44,6 +36,11 @@ def Fst_reynolds(p1_afs, p2_afs, size1, size2):
     except:
         snp_fst = 0 # for sites without variation in empirical data, the denominator is 0, so the Fst is set to 0
         print(p1_afs, p2_afs, al, albl)
+
+    # mannually correct non-zero FST due to floating-point precision issues to 0
+    if abs(snp_fst) < 1e-10:
+        snp_fst = 0
+    
     return snp_fst
 
     # # seperately return al and al + bl for Fst calculation (weighted average of sites within windows)
@@ -67,10 +64,9 @@ def calc_snp_fst_reynolds_from_ct(count_table_pop1, count_table_pop2, out_fst):
             line_ct_pop2 = line_ct_pop2.strip().split("\t")
             p1_afs = {idx: float(line_ct_pop1[idx])/size1 for idx in range(len(line_ct_pop1))}
             p2_afs = {idx: float(line_ct_pop2[idx])/size2 for idx in range(len(line_ct_pop2))}
-            if not all([(1 - sum(list(x**2 for x in p1_afs.values()))) == 0, (1 - sum(list(x**2 for x in p2_afs.values()))) == 0, p1_afs == p2_afs]):
-            # if p1_afs != p2_afs:    # skip sites without variation
-                snp_fst = Fst_reynolds(p1_afs, p2_afs, size1, size2)
-                f_out_fst.write(f"{snp_fst}\n")
+            # if not all([(1 - sum(list(x**2 for x in p1_afs.values()))) == 0, (1 - sum(list(x**2 for x in p2_afs.values()))) == 0, p1_afs == p2_afs]):   # skip sites that are fixed at the same allele in both populations
+            snp_fst = Fst_reynolds(p1_afs, p2_afs, size1, size2)
+            f_out_fst.write(f"{snp_fst}\n")
 
 def main():
     usage = "usage: %prog [options] args"
