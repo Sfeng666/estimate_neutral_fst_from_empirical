@@ -16,8 +16,8 @@ def calc_minor_af_from_ct(count_table_pop1, count_table_pop2, out_afs_pop1, out_
         for line_ct_pop1, line_ct_pop2 in zip(lines_ct_pop1, lines_ct_pop2):
             line_ct_pop1 = line_ct_pop1.strip().split("\t")
             line_ct_pop2 = line_ct_pop2.strip().split("\t")
-            p1_afs = {idx: float(line_ct_pop1[idx])/size1 for idx in range(len(line_ct_pop1))}
-            p2_afs = {idx: float(line_ct_pop2[idx])/size2 for idx in range(len(line_ct_pop2))}
+            p1_afs = {idx: int(line_ct_pop1[idx])/size1 for idx in range(len(line_ct_pop1))}
+            p2_afs = {idx: int(line_ct_pop2[idx])/size2 for idx in range(len(line_ct_pop2))}
             if not all([(1 - sum(list(x**2 for x in p1_afs.values()))) == 0, (1 - sum(list(x**2 for x in p2_afs.values()))) == 0, p1_afs == p2_afs]):   # skip sites that are fixed at the same allele in both populations
                 # confirm the minor allele as the allele with the second highest total allele frequency across populations
                 combined_af = {idx: sum([p1_afs[idx], p2_afs[idx]]) for idx in range(len(line_ct_pop1))}
@@ -25,8 +25,8 @@ def calc_minor_af_from_ct(count_table_pop1, count_table_pop2, out_afs_pop1, out_
                 minor_af_pop1 = min(p1_afs[minor_af_idx], 1 - p1_afs[minor_af_idx])  # since the minor allele across populations may not be the minor allele of each population, we take the smaller one of top two allele frequencies as MAF per population
                 minor_af_pop2 = min(p2_afs[minor_af_idx], 1 - p2_afs[minor_af_idx])
 
-                f_out_afs_pop1.write(f"{minor_af_pop1}\n")
-                f_out_afs_pop2.write(f"{minor_af_pop2}\n")  
+                f_out_afs_pop1.write(f"{minor_af_pop1:.6f}\n")  # round to 6 decimal places, so that inconsistent FST (difference < 1e-10) on the same afs due to floating-point precision issues are avoided.
+                f_out_afs_pop2.write(f"{minor_af_pop2:.6f}\n")
 
 def main():
     usage = "usage: %prog [options] args"

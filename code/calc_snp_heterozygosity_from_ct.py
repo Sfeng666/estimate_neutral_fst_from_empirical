@@ -21,7 +21,7 @@ def calc_total_heterozygosity_from_ct(count_table_pop1, count_table_pop2, out_he
             if not all([(1 - sum(list(x**2 for x in p1_afs.values()))) == 0, (1 - sum(list(x**2 for x in p2_afs.values()))) == 0, p1_afs == p2_afs]):   # skip sites that are fixed at the same allele in both populations
                 total_heterozygosity = (1 - sum(list(x**2 for x in p1_afs.values()))) + (1 - sum(list(x**2 for x in p2_afs.values())))
 
-                f_out_heterozygosity.write(f"{total_heterozygosity}\n")
+                f_out_heterozygosity.write(f"{total_heterozygosity:.6f}\n")
 
 def main():
     usage = "usage: %prog [options] args"

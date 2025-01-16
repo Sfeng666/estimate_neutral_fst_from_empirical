@@ -30,7 +30,7 @@ plot_fst_distribution <- function(chrom) {
   
   # Plot
   p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
-    geom_density(alpha = 0.5) +
+    geom_density(alpha = 0.5, bw = 0.01) +
     geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
     geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
     scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
@@ -74,7 +74,7 @@ plot_fst_distribution <- function(chrom) {
   
   # Plot
   p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
-    geom_density(alpha = 0.5) +
+    geom_density(alpha = 0.5, bw = 0.01) +
     geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
     geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
     scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
@@ -119,7 +119,7 @@ plot_fst_distribution <- function(chrom) {
   
   # Plot
   p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
-    geom_density(alpha = 0.5) +
+    geom_density(alpha = 0.5, bw = 0.01) +
     geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
     geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
     scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
@@ -164,7 +164,7 @@ plot_fst_distribution <- function(chrom) {
   
   # Plot
   p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
-    geom_density(alpha = 0.5) +
+    geom_density(alpha = 0.5, bw = 0.01) +
     geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
     geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
     scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +
@@ -208,7 +208,7 @@ plot_fst_distribution <- function(chrom) {
   
   # Plot
   p <- ggplot(fst_data_combined, aes(x = FST, fill = Version)) +
-    geom_density(alpha = 0.5) +
+    geom_density(alpha = 0.5, bw = 0.01) +
     geom_vline(data = percentiles, aes(xintercept = p90, color = Version, linetype = "90th Percentile"), size = 1) +
     geom_vline(data = percentiles, aes(xintercept = p95, color = Version, linetype = "95th Percentile"), size = 1) +
     scale_linetype_manual(name = "Percentiles", values = c("90th Percentile" = "dashed", "95th Percentile" = "dotted")) +

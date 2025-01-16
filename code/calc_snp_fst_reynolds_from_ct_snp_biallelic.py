@@ -67,7 +67,7 @@ def calc_snp_fst_reynolds_from_ct(count_table_pop1, count_table_pop2, out_fst):
             # if not all([(1 - sum(list(x**2 for x in p1_afs.values()))) == 0, (1 - sum(list(x**2 for x in p2_afs.values()))) == 0, p1_afs == p2_afs]):   # skip sites that are fixed at same allele in both populations
             if len(set(list(idx for idx in p1_afs if p1_afs[idx] != 0)) | set(list(idx for idx in p2_afs if p2_afs[idx] != 0))) == 2:   # only keep sites with two alleles across populations
                 snp_fst = Fst_reynolds(p1_afs, p2_afs, size1, size2)
-                f_out_fst.write(f"{snp_fst}\n")
+                f_out_fst.write(f"{snp_fst:.6f}\n") # round to 6 decimal places, so that inconsistent FST (difference < 1e-10) on the same afs due to floating-point precision issues are avoided.
 
 def main():
     usage = "usage: %prog [options] args"

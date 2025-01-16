@@ -31,6 +31,7 @@ Output:
     2. Subset 4-fold synonymous sites for Fst estimation, by extracting positions in the BED output of last step that overlaps with positions in the BED file of genome-wide 4-fold synonymous sites using `bedtools intersect`.
 2. Extract rows in genotype count tables that represent 4-fold synonymous sites that are not in low-recombination regions ([code](code/extract_sites_syn_recomb_seg.py)).
 3. Calculate per-site FST between the two focal populations for each chromosome, and generate mean per-site FST within each chromosome and across chromosomes ([code](code/calc_snp_fst_reynolds_from_ct_snp.sh)).
+4. Plot SNP-FST distributions for each chromosomal arm ([code](code/plot_fst_distribution.Rmd)).
 
 ## Note
 1. ~0.08% of total sites cannot be liftovered from dm3 (chrX and chr2L) to dm6. These sites are excluded from sites extraction and FST calculation.
@@ -49,6 +50,11 @@ Output:
 9. Why would the FST distribution of empirical data has different shape (smooth vs spiky) from that of simulated data? The answer is: <u>the differing shapes of distribution is mainly due to a smooth distribution of minor allele frequency in at least one of the populations in the empirical data</u>. Here is what I did to reach this conclusion:
     * generate a MAF distribution per chromosome per population (codes: [shell](code/calc_snp_afs_from_ct.sh) + [python](code/calc_snp_afs_from_ct.py)) (example output: [list of MAF](data/output/afs_FR_chrX.txt), [MAF distribution](data/output/MAF_ZI_distribution_chrX_empirical.png)). You can tell when MAF distributions of both populations are spiky, the FST distribution is spiky; when MAF distribution of at least one population is smooth, the FST distribution is smooth.
     * generate a distribution of per-site sum heterozygosity across populations (codes: [shell](code/calc_snp_heterozygosity_from_ct.sh) + [python](code/calc_snp_heterozygosity_from_ct.py)) (example output: [list of heterozygosity](data/output/heterozygosity_chrX.txt), [distribution of heterozygosity](data/output/heterozygosity_distribution_chrX_empirical.png)). The results does not offer much clue to the question.
+10. Be careful about bandwidth used for plotting distribution! The default bandwidth of the distribution-plotting function ggplot2::geom_density() is <u>heuristically determined</u> as a function of: (1) standard deviation of the data, (2) interquartile range of the data, and (3) number of data points. 
+    * Default calculation of bw:  $\text{bw} = 0.9 \times \min(\text{sd}, \text{IQR}/1.34) \times n^{-1/5}$
+    * Since chromosome arms do differ in number of sites and standard deviation (of MAF and/or FST), the default bandwidth used is different across input data. 
+    * Specifically, a wider band width has over-smoothed distribution of chromosomes with less empirical sites (e.g., chrX) compared to chromosomes with more empirical sites (e.g., chr2R, chr3L) or much more (~4 magnitudes higher) simulated sites.
+    * For a fair comparison across distributions, I now use a fixed bandwidth bw = 0.01 across all FST distributions.
 
 ## Environment setup
 To set up the environment for this analyses, you could use conda:
